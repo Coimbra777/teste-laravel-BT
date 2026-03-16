@@ -1,0 +1,628 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "Payment API - Teste Técnico",
+		"description": "API REST de gerenciamento de pagamentos com múltiplos gateways",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8989/api"
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login (Admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    pm.collectionVariables.set('token', json.token);",
+									"    console.log('Token salvo automaticamente!');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@admin.com\",\n    \"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": ["{{base_url}}"],
+							"path": ["login"]
+						}
+					}
+				},
+				{
+					"name": "Login (Manager)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    pm.collectionVariables.set('token', json.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"manager@test.com\",\n    \"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": ["{{base_url}}"],
+							"path": ["login"]
+						}
+					}
+				},
+				{
+					"name": "Login (Finance)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    pm.collectionVariables.set('token', json.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"finance@test.com\",\n    \"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": ["{{base_url}}"],
+							"path": ["login"]
+						}
+					}
+				},
+				{
+					"name": "Login (User)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    pm.collectionVariables.set('token', json.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@test.com\",\n    \"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": ["{{base_url}}"],
+							"path": ["login"]
+						}
+					}
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/logout",
+							"host": ["{{base_url}}"],
+							"path": ["logout"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Purchase",
+			"item": [
+				{
+					"name": "Realizar Compra",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Cliente Teste\",\n    \"email\": \"cliente@email.com\",\n    \"card_number\": \"5569000000006063\",\n    \"cvv\": \"010\",\n    \"products\": [\n        {\n            \"product_id\": 1,\n            \"quantity\": 2\n        },\n        {\n            \"product_id\": 2,\n            \"quantity\": 1\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/purchase",
+							"host": ["{{base_url}}"],
+							"path": ["purchase"]
+						},
+						"description": "Requer role: user ou admin. Faça login com user@test.com ou admin@admin.com antes."
+					}
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Listar Produtos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": ["{{base_url}}"],
+							"path": ["products"]
+						},
+						"description": "Requer role: manager, finance ou admin."
+					}
+				},
+				{
+					"name": "Criar Produto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Novo Produto\",\n    \"amount\": 3500\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": ["{{base_url}}"],
+							"path": ["products"]
+						}
+					}
+				},
+				{
+					"name": "Detalhe Produto",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1",
+							"host": ["{{base_url}}"],
+							"path": ["products", "1"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Produto",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Produto Atualizado\",\n    \"amount\": 7500\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/1",
+							"host": ["{{base_url}}"],
+							"path": ["products", "1"]
+						}
+					}
+				},
+				{
+					"name": "Remover Produto",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1",
+							"host": ["{{base_url}}"],
+							"path": ["products", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Listar Usuários",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": ["{{base_url}}"],
+							"path": ["users"]
+						},
+						"description": "Requer role: manager ou admin."
+					}
+				},
+				{
+					"name": "Criar Usuário",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"novo@test.com\",\n    \"password\": \"password\",\n    \"role\": \"user\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": ["{{base_url}}"],
+							"path": ["users"]
+						}
+					}
+				},
+				{
+					"name": "Detalhe Usuário",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": ["{{base_url}}"],
+							"path": ["users", "1"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Usuário",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"atualizado@test.com\",\n    \"role\": \"manager\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/2",
+							"host": ["{{base_url}}"],
+							"path": ["users", "2"]
+						}
+					}
+				},
+				{
+					"name": "Remover Usuário",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/2",
+							"host": ["{{base_url}}"],
+							"path": ["users", "2"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Gateways",
+			"item": [
+				{
+					"name": "Listar Gateways",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/gateways",
+							"host": ["{{base_url}}"],
+							"path": ["gateways"]
+						},
+						"description": "Requer role: admin."
+					}
+				},
+				{
+					"name": "Toggle Gateway (Ativar/Desativar)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/gateways/1/toggle",
+							"host": ["{{base_url}}"],
+							"path": ["gateways", "1", "toggle"]
+						}
+					}
+				},
+				{
+					"name": "Alterar Prioridade Gateway",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"priority\": 5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/gateways/1/priority",
+							"host": ["{{base_url}}"],
+							"path": ["gateways", "1", "priority"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Clients",
+			"item": [
+				{
+					"name": "Listar Clientes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/clients",
+							"host": ["{{base_url}}"],
+							"path": ["clients"]
+						},
+						"description": "Requer role: finance ou admin."
+					}
+				},
+				{
+					"name": "Detalhe Cliente (com compras)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/clients/1",
+							"host": ["{{base_url}}"],
+							"path": ["clients", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Listar Transações",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/transactions",
+							"host": ["{{base_url}}"],
+							"path": ["transactions"]
+						},
+						"description": "Requer role: finance ou admin."
+					}
+				},
+				{
+					"name": "Detalhe Transação",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/transactions/1",
+							"host": ["{{base_url}}"],
+							"path": ["transactions", "1"]
+						}
+					}
+				},
+				{
+					"name": "Reembolso",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/transactions/1/refund",
+							"host": ["{{base_url}}"],
+							"path": ["transactions", "1", "refund"]
+						}
+					}
+				}
+			]
+		}
+	]
+}
