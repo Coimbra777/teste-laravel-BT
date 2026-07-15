@@ -32,7 +32,7 @@ class PaymentServiceTest extends TestCase
 
         $factory = Mockery::mock(GatewayFactory::class);
         $factory->shouldReceive('make')
-            ->with(Mockery::on(fn ($g) => $g->id === $gateway1->id))
+            ->with(Mockery::on(fn($g) => $g->id === $gateway1->id))
             ->andReturn($mockGatewayService);
 
         $service = new PaymentService($factory);
@@ -77,10 +77,10 @@ class PaymentServiceTest extends TestCase
 
         $factory = Mockery::mock(GatewayFactory::class);
         $factory->shouldReceive('make')
-            ->with(Mockery::on(fn ($g) => $g->id === $gateway1->id))
+            ->with(Mockery::on(fn($g) => $g->id === $gateway1->id))
             ->andReturn($failingGateway);
         $factory->shouldReceive('make')
-            ->with(Mockery::on(fn ($g) => $g->id === $gateway2->id))
+            ->with(Mockery::on(fn($g) => $g->id === $gateway2->id))
             ->andReturn($successGateway);
 
         $service = new PaymentService($factory);
@@ -124,10 +124,10 @@ class PaymentServiceTest extends TestCase
 
         $factory = Mockery::mock(GatewayFactory::class);
         $factory->shouldReceive('make')
-            ->with(Mockery::on(fn ($g) => $g->id === $gateway1->id))
+            ->with(Mockery::on(fn($g) => $g->id === $gateway1->id))
             ->andReturn($failingGateway1);
         $factory->shouldReceive('make')
-            ->with(Mockery::on(fn ($g) => $g->id === $gateway2->id))
+            ->with(Mockery::on(fn($g) => $g->id === $gateway2->id))
             ->andReturn($failingGateway2);
 
         $service = new PaymentService($factory);

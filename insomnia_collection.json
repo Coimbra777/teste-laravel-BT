@@ -1,0 +1,388 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-07-15T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v8",
+  "resources": [
+    {
+      "_id": "wrk_payment_api",
+      "_type": "workspace",
+      "name": "Payment API - Teste Técnico",
+      "description": "API REST de gerenciamento de pagamentos com múltiplos gateways",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "parentId": "wrk_payment_api",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:8989/api",
+        "token": ""
+      },
+      "dataPropertyOrder": {
+        "&": ["base_url", "token"]
+      },
+      "metaSortKey": 1
+    },
+
+    { "_id": "fld_auth", "_type": "request_group", "parentId": "wrk_payment_api", "name": "Auth", "metaSortKey": -100 },
+    { "_id": "fld_purchase", "_type": "request_group", "parentId": "wrk_payment_api", "name": "Purchase", "metaSortKey": -90 },
+    { "_id": "fld_products", "_type": "request_group", "parentId": "wrk_payment_api", "name": "Products", "metaSortKey": -80 },
+    { "_id": "fld_users", "_type": "request_group", "parentId": "wrk_payment_api", "name": "Users", "metaSortKey": -70 },
+    { "_id": "fld_gateways", "_type": "request_group", "parentId": "wrk_payment_api", "name": "Gateways", "metaSortKey": -60 },
+    { "_id": "fld_clients", "_type": "request_group", "parentId": "wrk_payment_api", "name": "Clients", "metaSortKey": -50 },
+    { "_id": "fld_transactions", "_type": "request_group", "parentId": "wrk_payment_api", "name": "Transactions", "metaSortKey": -40 },
+
+    {
+      "_id": "req_login_admin",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Login (Admin)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/login",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"admin@admin.com\",\n  \"password\": \"password\"\n}"
+      },
+      "authentication": {},
+      "afterResponseScript": "const body = insomnia.response.json();\nif (body && body.token) {\n  insomnia.environment.set('token', body.token);\n  console.log('Token salvo no environment.');\n}",
+      "metaSortKey": -100
+    },
+    {
+      "_id": "req_login_manager",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Login (Manager)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/login",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"manager@test.com\",\n  \"password\": \"password\"\n}"
+      },
+      "authentication": {},
+      "afterResponseScript": "const body = insomnia.response.json();\nif (body && body.token) {\n  insomnia.environment.set('token', body.token);\n}",
+      "metaSortKey": -90
+    },
+    {
+      "_id": "req_login_finance",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Login (Finance)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/login",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"finance@test.com\",\n  \"password\": \"password\"\n}"
+      },
+      "authentication": {},
+      "afterResponseScript": "const body = insomnia.response.json();\nif (body && body.token) {\n  insomnia.environment.set('token', body.token);\n}",
+      "metaSortKey": -80
+    },
+    {
+      "_id": "req_login_user",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Login (User)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/login",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"user@test.com\",\n  \"password\": \"password\"\n}"
+      },
+      "authentication": {},
+      "afterResponseScript": "const body = insomnia.response.json();\nif (body && body.token) {\n  insomnia.environment.set('token', body.token);\n}",
+      "metaSortKey": -70
+    },
+    {
+      "_id": "req_logout",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Logout",
+      "method": "POST",
+      "url": "{{ _.base_url }}/logout",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -60
+    },
+
+    {
+      "_id": "req_purchase",
+      "_type": "request",
+      "parentId": "fld_purchase",
+      "name": "Realizar Compra",
+      "description": "Requer role: user ou admin. Faça login com user@test.com ou admin@admin.com antes.",
+      "method": "POST",
+      "url": "{{ _.base_url }}/purchase",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Cliente Teste\",\n  \"email\": \"cliente@email.com\",\n  \"card_number\": \"5569000000006063\",\n  \"cvv\": \"010\",\n  \"products\": [\n    { \"product_id\": 1, \"quantity\": 2 },\n    { \"product_id\": 2, \"quantity\": 1 }\n  ]\n}"
+      },
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -100
+    },
+
+    {
+      "_id": "req_products_index",
+      "_type": "request",
+      "parentId": "fld_products",
+      "name": "Listar Produtos",
+      "description": "Requer role: manager, finance ou admin.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/products",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -100
+    },
+    {
+      "_id": "req_products_store",
+      "_type": "request",
+      "parentId": "fld_products",
+      "name": "Criar Produto",
+      "method": "POST",
+      "url": "{{ _.base_url }}/products",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Novo Produto\",\n  \"amount\": 3500\n}"
+      },
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -90
+    },
+    {
+      "_id": "req_products_show",
+      "_type": "request",
+      "parentId": "fld_products",
+      "name": "Detalhe Produto",
+      "method": "GET",
+      "url": "{{ _.base_url }}/products/1",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -80
+    },
+    {
+      "_id": "req_products_update",
+      "_type": "request",
+      "parentId": "fld_products",
+      "name": "Atualizar Produto",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/products/1",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Produto Atualizado\",\n  \"amount\": 7500\n}"
+      },
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -70
+    },
+    {
+      "_id": "req_products_destroy",
+      "_type": "request",
+      "parentId": "fld_products",
+      "name": "Remover Produto",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/products/1",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -60
+    },
+
+    {
+      "_id": "req_users_index",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Listar Usuários",
+      "description": "Requer role: manager ou admin.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/users",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -100
+    },
+    {
+      "_id": "req_users_store",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Criar Usuário",
+      "method": "POST",
+      "url": "{{ _.base_url }}/users",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"novo@test.com\",\n  \"password\": \"password\",\n  \"role\": \"user\"\n}"
+      },
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -90
+    },
+    {
+      "_id": "req_users_show",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Detalhe Usuário",
+      "method": "GET",
+      "url": "{{ _.base_url }}/users/1",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -80
+    },
+    {
+      "_id": "req_users_update",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Atualizar Usuário",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/users/2",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"atualizado@test.com\",\n  \"role\": \"manager\"\n}"
+      },
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -70
+    },
+    {
+      "_id": "req_users_destroy",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Remover Usuário",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/users/2",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -60
+    },
+
+    {
+      "_id": "req_gateways_index",
+      "_type": "request",
+      "parentId": "fld_gateways",
+      "name": "Listar Gateways",
+      "description": "Requer role: admin.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/gateways",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -100
+    },
+    {
+      "_id": "req_gateways_toggle",
+      "_type": "request",
+      "parentId": "fld_gateways",
+      "name": "Toggle Gateway (Ativar/Desativar)",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/gateways/1/toggle",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -90
+    },
+    {
+      "_id": "req_gateways_priority",
+      "_type": "request",
+      "parentId": "fld_gateways",
+      "name": "Alterar Prioridade Gateway",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/gateways/1/priority",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"priority\": 5\n}"
+      },
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -80
+    },
+
+    {
+      "_id": "req_clients_index",
+      "_type": "request",
+      "parentId": "fld_clients",
+      "name": "Listar Clientes",
+      "description": "Requer role: finance ou admin.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/clients",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -100
+    },
+    {
+      "_id": "req_clients_show",
+      "_type": "request",
+      "parentId": "fld_clients",
+      "name": "Detalhe Cliente (com compras)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/clients/1",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -90
+    },
+
+    {
+      "_id": "req_transactions_index",
+      "_type": "request",
+      "parentId": "fld_transactions",
+      "name": "Listar Transações",
+      "description": "Requer role: finance ou admin.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/transactions",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -100
+    },
+    {
+      "_id": "req_transactions_show",
+      "_type": "request",
+      "parentId": "fld_transactions",
+      "name": "Detalhe Transação",
+      "method": "GET",
+      "url": "{{ _.base_url }}/transactions/1",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -90
+    },
+    {
+      "_id": "req_transactions_refund",
+      "_type": "request",
+      "parentId": "fld_transactions",
+      "name": "Reembolso",
+      "method": "POST",
+      "url": "{{ _.base_url }}/transactions/1/refund",
+      "headers": [{ "name": "Accept", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -80
+    }
+  ]
+}
