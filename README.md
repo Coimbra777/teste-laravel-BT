@@ -1,4 +1,4 @@
-w# API de Gerenciamento de Pagamentos
+# API de Gerenciamento de Pagamentos
 
 API REST para gerenciamento de pagamentos com suporte a múltiplos gateways de pagamento, fallback automático e controle de acesso baseado em roles.
 
